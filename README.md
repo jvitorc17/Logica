@@ -1,4 +1,4 @@
-# Logica
+# Lógica
 Trabalho de Lógica e Especificação. Problema do fazendeiro, lobo e repolho.
 #### Enunciado do problema
 
