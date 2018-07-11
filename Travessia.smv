@@ -12,18 +12,14 @@ DEFINE
     move_fazendeiro := move = 2;  --mover fazendeiro
     move_lobo := move = 3;        --mover ovelha
     move_repolho := move = 4;     --mover lobo
-    
 
---DEFINE
---    lobo_ovelha := lobo = ovelha & ovelha = faz;    -- lobo pode ficar com ovelha
---    ovelha_repolho := ovelha = faz & faz = repolho; -- ovelha pode ficar com repolho
 ASSIGN
 
 INIT
-    faz =m1 &
-    lobo =m1 &
-    repolho =m1 &
-    ovelha =m1;
+    faz = m1 &
+    lobo = m1 &
+    repolho = m1 &
+    ovelha = m1;
 
 TRANS
         move_ovelha ->
