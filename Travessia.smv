@@ -1,0 +1,68 @@
+MODULE main
+
+VAR
+    faz : {m1,m2};
+    lobo : {m1,m2};
+    repolho : {m1,m2};
+    ovelha : {m1,m2};
+    move : 1..4; -- possible moves
+
+DEFINE
+    move_ovelha := move = 1;      --mover repolho
+    move_fazendeiro := move = 2;  --mover fazendeiro
+    move_lobo := move = 3;        --mover ovelha
+    move_repolho := move = 4;     --mover lobo
+    
+
+--DEFINE
+--    lobo_ovelha := lobo = ovelha & ovelha = faz;    -- lobo pode ficar com ovelha
+--    ovelha_repolho := ovelha = faz & faz = repolho; -- ovelha pode ficar com repolho
+ASSIGN
+
+INIT
+    faz =m1 &
+    lobo =m1 &
+    repolho =m1 &
+    ovelha =m1;
+
+TRANS
+        move_ovelha ->
+					faz = ovelha & 
+					next(faz) != faz & 
+					next(ovelha) != ovelha &--
+                    next(repolho) = repolho & 
+                    next(lobo)=lobo;
+TRANS
+        move_fazendeiro ->
+                    lobo = repolho &
+                    repolho != ovelha & --
+                    next(faz) != faz  &
+                    next(lobo) = lobo &
+                    next(repolho) = repolho &
+                    next(ovelha) = ovelha ;
+TRANS
+        move_lobo ->
+                    faz = lobo &
+    				next(faz) != faz &
+					next(lobo) != lobo &
+                    repolho != ovelha &
+                    next(repolho) = repolho &
+                    next(ovelha) = ovelha;
+
+TRANS
+        move_repolho ->
+                    faz = repolho &
+                    ovelha != lobo &
+					next(faz) != faz &
+					next(repolho) != repolho &
+                    next(lobo) = lobo &
+                    next(ovelha)=ovelha;
+    				
+--SPECS falsas
+--SPEC EF(faz = m1 & ovelha = m2 & lobo = m2 & repolho = m1);
+--SPEC EF(faz = m2 & ovelha = m1 & lobo = m1 & repolho = m2);
+--SPEC EF(faz = m1 & ovelha = m2 & lobo = m2 & repolho = m2);
+--SPEC EF(faz = m2 & ovelha = m1 & lobo = m2 & repolho = m1);
+
+--MOSTRAR TRAVESSIA
+SPEC !EF(faz = m2 & ovelha = m2 & lobo = m2 & repolho = m2);
